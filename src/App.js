@@ -1,8 +1,8 @@
 import "./App.css";
 
 function App() {
-  // FIRST EXAMPLE (accumulator is a number)
-  // Sum values in an array
+  ////// FIRST EXAMPLE (accumulator is a number) //////
+  // The goal is to sum all of the values in the array
   const numArray = [100, 40, 25];
 
   // The for loop approach
@@ -10,16 +10,14 @@ function App() {
   numArray.forEach((value) => {
     forLoopSum += value;
   });
-  // console.log("The sum from the for loop: ", forLoopSum);
+  console.log("EXAMPLE 1 - sum from the for loop: ", forLoopSum);
 
   // The reduce approach
-  const reduceSum = numArray.reduce(
-    (sum, currentArrayValue) => (sum += currentArrayValue)
-  );
-  // console.log("This is the sum from reduce: ", reduceSum);
+  const reduceSum = numArray.reduce((sum, value) => (sum += value));
+  console.log("EXAMPLE 1 - sum from reduce: ", reduceSum);
 
-  // SECOND EXAMPLE (accumulator is an object)
-  // Get number of occurences of each string
+  ////// EXAMPLE 2 (accumulator is an object) //////
+  // Get the number of occurences of each string and return them in an object of the format { word: count }
   const stringArray = [
     "I",
     "feel",
@@ -39,68 +37,64 @@ function App() {
   ];
   // The for loop approach
   const wordCount = {};
-  // console.log(wordCount["I"]);
   stringArray.forEach((word) => {
     wordCount[word] ? (wordCount[word] += 1) : (wordCount[word] = 1);
   });
-  // console.log("This is the word count object using a for loop: ", wordCount);
-  // The reduce approach
-  const wordCountReduce = stringArray.reduce((reduceWordCount, currentWord) => {
-    reduceWordCount[currentWord]
-      ? (reduceWordCount[currentWord] += 1)
-      : (reduceWordCount[currentWord] = 1);
-    return reduceWordCount;
-  }, {});
-  // console.log("This is the word count object using reduce: ", wordCountReduce);
+  console.log("EXAMPLE 2 - word count object using a for loop: ", wordCount);
 
-  // THIRD EXAMPLE (accumulator is an array)
+  // The reduce approach
+  const wordCountReduce = stringArray.reduce((wordCount, word) => {
+    wordCount[word] ? (wordCount[word] += 1) : (wordCount[word] = 1);
+    return wordCount;
+  }, {});
+  console.log(
+    "EXAMPLE 2 - the word count object using reduce: ",
+    wordCountReduce
+  );
+
+  ////// EXAMPLE 3 - (accumulator is an array) //////
+  // The goal is to standardize the key names to "title" and "date" and to filter out all objects where the title is "Title C"
   const rawArray = [
     { Title: "Title A", release_date: "11/20/22" },
     { Title: "Title B", release_date: "02/02/23" },
     { Title: "Title C", release_date: "01/30/23" },
   ];
-  const formattedArray = rawArray.map((title) => {
+  const filteredArray = rawArray.filter((title) => title.Title !== "Title C");
+  const formattedArray = filteredArray.map((title) => {
     return { title: title.Title, date: title.release_date };
   });
-  const filteredArray = formattedArray.filter(
-    (title) => title.title !== "Title C"
+  console.log(
+    "EXAMPLE 3 - the filtered, formatted array using filter and map: ",
+    formattedArray
   );
-  // console.log("This is the filtered, formatted array: ", filteredArray);
 
   // Using reduce
-  const filteredArrayReduce = rawArray.reduce((filteredArray, currentTitle) => {
-    console.log(
-      "WE ARE REDUCING. This is the current accumulator",
-      filteredArray
-    );
-    console.log("WE ARE REDUCING. This is the currentTitle", currentTitle);
-    if (currentTitle.Title !== "Title C") {
-      console.log("This title is NOT Title C: ", currentTitle);
+  const filteredArrayReduce = rawArray.reduce((filteredArray, title) => {
+    if (title.Title !== "Title C") {
       const formattedTitle = {
-        title: currentTitle.Title,
-        date: currentTitle.release_date,
+        title: title.Title,
+        date: title.release_date,
       };
-      console.log(
-        "This is the newly formatted title we will add to our accumulator",
-        formattedTitle
-      );
       filteredArray.push(formattedTitle);
     }
     return filteredArray;
   }, []);
   console.log(
-    "This is the filtered, formatted array using reduce: ",
+    "EXAMPLE 3: the filtered, formatted array using reduce: ",
     filteredArrayReduce
   );
 
   // TO TRY YOURSELF
+  ////// EXAMPLE 4 (accumulator is a string) //////
+  // The goal is to turn the array into a single string
   let sentence = "";
   stringArray.forEach((word) => (sentence += `${word} `));
-  console.log("This is your sentence", sentence);
+  console.log("EXAMPLE 4 - the string using a for loop: ", sentence);
 
-  // NOW TRY TO DO THIS WITH REDUCE INSTEAD
+  // NOW DO THIS WITH REDUCE
 
-  // Convert these objects to a name field instead of firstName and lastName
+  ////// EXAMPLE 5 (accumulator is an array) //////
+  // The goal is to combined the keys "firstName" and "lastName" into "name" which is the two strings put together
   const profiles = [
     { firstName: "Rebekah", lastName: "Callari", id: 1, comments: 5 },
     { firstName: "Rachel", lastName: "Callari", id: 2, comments: 10 },
@@ -113,14 +107,15 @@ function App() {
       comments: person.comments,
     };
   });
-  console.log("These are the profiles with the name key", newProfiles);
+  console.log("EXAMPLE 5 - the formatted object using map: ", newProfiles);
 
   // NOW DO THIS USING REDUCE
 
-  // Sum the number of comments
+  // EXAMPLE 6 (accumulator is a number)
+  // The goal is to sum the number of comments
   let commentTotal = 0;
-  profiles.forEach((profile) => (commentTotal += profile.comments));
-  console.log("This is the total number of comments: ", commentTotal);
+  profiles.forEach((person) => (commentTotal += person.comments));
+  console.log("EXAMPLE 6 - the total number of comments: ", commentTotal);
 
   return (
     <div className="App">
